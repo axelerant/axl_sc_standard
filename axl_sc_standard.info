@@ -1,0 +1,7 @@
+name = Standard Shortcodes
+description = Provides custom shortcode tags
+package = Axelerant Shortcodes
+core = 7.x
+
+dependencies[] = filter
+dependencies[] = shortcode

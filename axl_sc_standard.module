@@ -1,0 +1,1077 @@
+<?php
+
+/**
+ * Implementation of hook_js_alter().
+ * Replace the shortcode_wysiwwyg.js with our custom version
+ */
+function axl_sc_standard_js_alter(&$javascript) {
+  $path = drupal_get_path('module', 'shortcode_wysiwyg') . '/plugins/shortcode_wysiwyg/shortcode_wysiwyg.js';
+  if( isset($javascript[$path]) ) {
+    $javascript[$path]['data'] = drupal_get_path('module', 'sc_archetype5') . '/shortcode_wysiwyg.js';
+  }
+}
+
+/**
+ * Implementation of hook_shortcode_info().
+ * Using the same formatting as hook_filter_info()
+ */
+function axl_sc_standard_shortcode_info() {
+  $shortcodes['accordion'] = array(
+    'title' => t('Accordion'),
+    'description' => t('Wrapper for Accordion Items'),
+    'process callback' => 'axl_sc_standard_accordion',
+    'tips callback' => 'axl_sc_standard_accordion_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_accordion_attributes',
+  );
+  $shortcodes['accordion-item'] = array(
+    'title' => t('Accordion Item'),
+    'description' => t('Creates an accordion Item.'),
+    'process callback' => 'axl_sc_standard_accordion_item',
+    'tips callback' => 'axl_sc_standard_accordion_item_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_accordion_item_attributes',
+  );
+  $shortcodes['button'] = array(
+    'title' => t('Button'),
+    'description' => t('creates a fancy button that links to somewhere.'),
+    'process callback' => 'axl_sc_standard_button',
+    'tips callback' => 'axl_sc_standard_button_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_button_attributes',
+  );
+  $shortcodes['code'] = array(
+    'title' => t('Code'),
+    'description' => t('Code.'),
+    'process callback' => 'axl_sc_standard_code',
+    'tips callback' => 'axl_sc_standard_code_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_code_attributes',
+  );
+  $shortcodes['col'] = array(
+    'title' => t('Columns'),
+    'description' => t('Simple columns in content'),
+    'process callback' => 'axl_sc_standard_columns',
+    'tips callback' => 'axl_sc_standard_columns_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_columns_attributes',
+  );
+  $shortcodes['fn'] = array(
+    'title' => t('Footnote'),
+    'description' => t('Creates a footnote.'),
+    'process callback' => 'axl_sc_standard_footnote',
+    'tips callback' => 'axl_sc_standard_footnote_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_footnote_attributes',
+  );
+  $shortcodes['highlight'] = array(
+    'title' => t('Highlight'),
+    'description' => t('highlight an inline text'),
+    'process callback' => 'axl_sc_standard_highlight',
+    'tips callback' => 'axl_sc_standard_highlight_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_highlight_attributes',
+  );
+  $shortcodes['infobox'] = array(
+    'title' => t('Info Box'),
+    'description' => t('Creates an Info Box'),
+    'process callback' => 'axl_sc_standard_infobox',
+    'tips callback' => 'axl_sc_standard_infobox_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_infobox_attributes',
+  );
+  $shortcodes['notification'] = array(
+    'title' => t('Notification'),
+    'description' => t('Creates a Notification'),
+    'process callback' => 'axl_sc_standard_notification',
+    'tips callback' => 'axl_sc_standard_notification_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_notification_attributes',
+  );
+  $shortcodes['tabs'] = array(
+    'title' => t('Tabs'),
+    'description' => t('Wrapper for Tab Items'),
+    'process callback' => 'axl_sc_standard_tabs',
+    'tips callback' => 'axl_sc_standard_tabs_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_tabs_attributes',
+  );
+  $shortcodes['tab-item'] = array(
+    'title' => t('Tab Item'),
+    'description' => t('Creates a Tab pane with Tab button.'),
+    'process callback' => 'axl_sc_standard_tab_item',
+    'tips callback' => 'axl_sc_standard_tab_item_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_tab_item_attributes',
+  );
+  $shortcodes['teaser'] = array(
+    'title' => t('Teaser'),
+    'description' => t('Creates an Teaser'),
+    'process callback' => 'axl_sc_standard_teaser',
+    'tips callback' => 'axl_sc_standard_teaser_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_teaser_attributes',
+  );
+  $shortcodes['toggle'] = array(
+    'title' => t('Toggle'),
+    'description' => t('Wrapper for Toggle Items'),
+    'process callback' => 'axl_sc_standard_toggle',
+    'tips callback' => 'axl_sc_standard_toggle_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_toggle_attributes',
+  );
+  $shortcodes['toggle-item'] = array(
+    'title' => t('Toggle Item'),
+    'description' => t('Creates an Toggle Item.'),
+    'process callback' => 'axl_sc_standard_toggle_item',
+    'tips callback' => 'axl_sc_standard_toggle_item_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_toggle_item_attributes',
+  );
+  $shortcodes['icon'] = array(
+    'title' => t('Icon'),
+    'description' => t('Creates an icon.'),
+    'process callback' => 'axl_sc_standard_icon',
+    'tips callback' => 'axl_sc_standard_icon_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_icon_attributes',
+  );
+  $shortcodes['center'] = array(
+    'title' => t('Center'),
+    'description' => t('Center any text or images.'),
+    'process callback' => 'axl_sc_standard_center',
+    'tips callback' => 'axl_sc_standard_center_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_center_attributes',
+  );  
+  $shortcodes['block'] = array(
+    'title' => t('Block'),
+    'description' => t('Embed a block.'),
+    'process callback' => 'axl_sc_standard_block',
+    'tips callback' => 'axl_sc_standard_block_tips',
+    'default settings' => array(),
+    'attributes callback' => 'axl_sc_standard_block_attributes',
+  ); 
+  return $shortcodes;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function axl_sc_standard_theme() {
+  return array(
+    'shortcode_accordion' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_accordion_item' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_footnote' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_infobox' => array(
+      'variables' => array( 'title' => NULL, 'text' => NULL, 'class' => NULL),
+    ),
+    'shortcode_notification' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_tabs' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_tab_item' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_teaser' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_toggle' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_toggle_item' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),
+    'shortcode_center' => array(
+      'variables' => array( 'text' => '', 'class' => ''),
+    ),  
+    'shortcode_block' => array(
+      'variables' => array( 'title' => '', 'name' => '', 'class' => ''),
+    ),      
+  );
+}
+
+/*============================================================================================*/
+/* Accordion
+/*============================================================================================*/
+
+function axl_sc_standard_accordion($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'style'      => '',
+    'class'      => 'accordion',
+  ), $attrs));
+  $text = _axl_sc_standard_clean_items($text);
+
+  return theme('shortcode_accordion', array( 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_accordion_tips($format, $long) {
+  $output = '<strong>[accordion]</strong>[accordion-item][/accordion-item]<strong>[/accordion]</strong>';
+  return $output;
+}
+
+function theme_shortcode_accordion($vars) {
+  return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
+}
+
+function axl_sc_standard_accordion_attributes($form, $form_state) {
+  $form['template-accordion'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of items'),
+    '#options' => _axl_sc_standard_item_list( '[accordion-item title=&#34;Accordion Title Here&#34;]Content Here[/accordion-item]<br>' ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'accordion'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Accordion Items
+/*============================================================================================*/
+function axl_sc_standard_accordion_item($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'title'  => '',
+    'class'      => '',
+  ), $attrs));
+
+  return theme('shortcode_accordion_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_accordion_item_tips($format, $long) {
+  $output = '<strong>[accordion-item title="Accordian Title Here" ]</strong>Content Here<strong>[/accordion-item]</strong>';
+  return $output;
+}
+
+function theme_shortcode_accordion_item($vars) {
+  return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
+}
+
+function axl_sc_standard_accordion_item_attributes($form, $form_state) {
+  $form['sc_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => t('Accordian Title Here'),
+    '#size' => 60,
+    '#maxlength' => 60,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'accordion-item'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Button
+/*============================================================================================*/
+function axl_sc_standard_button( $attrs, $text ) {
+  extract(shortcode_attrs(array(
+    'url'     => '',
+    'size'    => '',
+    'color'   => '',
+    'target'  => '',
+    'class'   => 'button',
+  ), $attrs));
+
+  $class = shortcode_add_class($class, $size);
+  $class = shortcode_add_class($class, $color);
+
+  return l($text, ltrim($url, '/'), array(
+      'attributes' => array(
+        'class' => $class,
+        'target' => $target,
+      ),
+      'html' => TRUE,
+    )
+  );
+}
+
+function axl_sc_standard_button_tips($format, $long) {
+  $output = '<strong>[button url="#" size="small" color="red" target="_blank"]</strong>Button Text<strong>[/button]</strong>';
+  return $output;
+}
+
+function axl_sc_standard_button_attributes($form, $form_state) {
+  $form['sc_content_button'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Button Title'),
+    '#size' => 30,
+    '#maxlength' => 255,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'button'),
+      ),
+    ),
+  );
+  $form['url'] = array(
+    '#type' => 'textfield',
+    '#description' => t("For external URL's enter www.yourdomain.com or http://www.yourdomain.com<br>For internal URL's enter \"/node/node#\""),
+    '#title' => t('Link url'),
+    '#size' => 30,
+    '#maxlength' => 255,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'button'),
+      ),
+    ),
+  );
+  $form['size'] = array(
+    '#type' => 'select',
+    '#title' => t('Button size'),
+    '#options' => array(
+      'small' => t('Small'),
+      '' => t('Medium'),
+      'large' => t('Large'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'button'),
+      ),
+    ),
+  );
+  $form['color'] = array(
+    '#type' => 'select',
+    '#title' => t('Button Color'),
+    '#options' => array(
+      '' => t('White'),
+      'black' => t('Black'),
+      'blue' => t('Blue'),
+      'red' => t('Red'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'button'),
+      ),
+    ),
+  );
+  $form['target'] = array(
+    '#type' => 'select',
+    '#title' => t('Link target'),
+    '#options' => array(
+      '' => t('_self'),
+      '_blank' => t('_blank'),
+      '_parent' => t('_parent'),
+      '_top' => t('_top'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'button'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+
+/*============================================================================================*/
+/* Code
+/*============================================================================================*/
+function axl_sc_standard_code($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'class'      => '',
+  ), $attrs));
+
+  return '<pre>' . $text . '</pre>';
+}
+
+function axl_sc_standard_code_tips($format, $long) {
+  $output = '<strong>[code]</strong>Content Here<strong>[/code]</strong>';
+  return $output;
+}
+
+/*============================================================================================*/
+/* Columns
+/*============================================================================================*/
+function axl_sc_standard_columns( $attrs, $content = null ) {
+  extract(shortcode_attrs(array(
+    'width'      => '',
+    'align'      => '',
+    'last'       => '',
+    'clear'      => '',
+    'class'      => '',
+  ), $attrs));
+
+  $classes = array();
+  if ($last) $classes[] = 'col-last';
+  if ($width) $classes[] = 'col-' . $width;
+  if ($align == 'right') $classes[] = 'float-right';
+  if ($align == 'center') $classes[] = 'align-center';
+  if ($clear) $classes[] = 'clear-both';
+
+  $classes = trim(implode(' ', $classes));
+
+  return '<div class="' . $classes . '">' . $content . '</div>';
+}
+
+function axl_sc_standard_columns_tips($format, $long) {
+  $output = '<strong>[col width="1-2"]</strong>Content Here<strong>[/col][col width="1-2" last="1"]</strong>Content here<strong>[/col]</strong>';
+  return $output;
+}
+
+function axl_sc_standard_columns_attributes($form, $form_state) {
+  $form['width'] = array(
+    '#type' => 'select',
+    '#title' => t('Column width'),
+    '#options' => array(
+      '' => t('Auto'),
+      '1-8' => t('1/8'),
+      '1-7' => t('1/7'),
+      '1-6' => t('1/6'),
+      '1-5' => t('1/5'),
+      '1-4' => t('1/4'),
+      '1-3' => t('1/3'),
+      '1-2' => t('1/2'),
+      '2-3' => t('2/3'),
+      '3-4' => t('3/4'),
+      '2-5' => t('2/5'),
+      '3-5' => t('3/5'),
+      '4-5' => t('4/5'),
+      '5-6' => t('5/6'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'col'),
+      ),
+    ),
+  );
+  $form['align'] = array(
+    '#type' => 'select',
+    '#title' => t('Alignment of element'),
+    '#options' => array(
+      '' => t('Left'),
+      'right' => t('Right'),
+      'center' => t('Center'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'col'),
+      ),
+    ),
+  );
+  $form['clear'] = array(
+    '#type' => 'select',
+    '#title' => t('Float clearing'),
+    '#options' => array(
+      '' => t('None'),
+      'clear-both' => t('Clear both'),
+      'clear-left' => t('Clear left'),
+      'clear-right' => t('Clear right'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'col'),
+      ),
+    ),
+  );
+  $form['last'] = array(
+    '#type' => 'select',
+    '#title' => t('Last column in row'),
+    '#description' => t('If this columns is last in a row you need to check this'),
+    '#options' => array(
+      '' => 'No',
+      1 => t('Last in row'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'col'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Footnote
+/*============================================================================================*/
+function axl_sc_standard_footnote($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'class'      => 'footnote',
+  ), $attrs));
+
+  return theme('shortcode_footnote', array( 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_footnote_tips($format, $long) {
+  $output = '<strong>[fn]</strong>Content Here<strong>[/fn]</strong>';
+  return $output;
+}
+
+function theme_shortcode_footnote($vars) {
+  return '<div class="' . $vars['class'] . '" >' . $vars['text'] . '</div>';
+}
+
+/*============================================================================================*/
+/* Highlight
+/*============================================================================================*/
+function axl_sc_standard_highlight( $attrs, $text ) {
+  extract(shortcode_attrs(array(
+    'color'      => '',
+    'class'      => 'highlight',
+  ), $attrs));
+
+  $class = shortcode_add_class($class, $color);
+
+  return '<span class="' . $class . '">' . $text . '</span>';
+}
+
+function axl_sc_standard_highlight_tips($format, $long) {
+  $output = '<strong>[highlight color="gold"]</strong>Content Here<strong>[/highlight]</strong>';
+  return $output;
+}
+
+function axl_sc_standard_highlight_attributes($form, $form_state) {
+  $form['color'] = array(
+    '#type' => 'select',
+    '#title' => t('Highlight Color'),
+    '#options' => array(
+      '' => t('Blue'),
+      'gold' => t('Gold'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'highlight'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Info Box
+/*============================================================================================*/
+function axl_sc_standard_infobox($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'title'      => '',
+    'class'      => 'infobox',
+  ), $attrs));
+
+  return theme('shortcode_infobox', array( 'title' => $title, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_infobox_tips($format, $long) {
+  $output = '<strong>[infobox title="Info Box Title Here"]</strong>Content Here<strong>[/infobox]</strong>';
+  return $output;
+}
+
+function theme_shortcode_infobox($vars) {
+  $title = '';
+  if( isset( $vars['title'] ) && $vars['title'] != '') {
+    $title = "<h3>" . $vars['title'] . "</h3>";
+  }
+  return '<div class="' . $vars['class'] . '" >' . $title . $vars['text'] . '</div>';
+}
+
+function axl_sc_standard_infobox_attributes($form, $form_state) {
+  $form['sc_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => t('Info Box Title Here'),
+    '#size' => 30,
+    '#maxlength' => 60,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'infobox'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Notification
+/*============================================================================================*/
+function axl_sc_standard_notification($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'bold'      => '',
+    'color'      => '',
+    'class'      => '',
+  ), $attrs));
+
+  $class = shortcode_add_class($class, $color);
+
+  return theme('shortcode_notification', array( 'bold' => $bold, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_notification_tips($format, $long) {
+  $output = '<strong>[notification bold="Bold Text Here" color="notification-red"]</strong>Content Here<strong>[/notification]</strong>';
+  return $output;
+}
+
+function theme_shortcode_notification($vars) {
+  return '<div class="' . $vars['class'] . '" ><p><strong>' . $vars['bold'] . '</strong>' . $vars['text'] . '</p></div>';
+}
+
+function axl_sc_standard_notification_attributes($form, $form_state) {
+  $form['bold'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Bold Text'),
+    '#size' => 30,
+    '#maxlength' => 30,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'notification'),
+      ),
+    ),
+  );
+  $form['color'] = array(
+    '#type' => 'select',
+    '#title' => t('Color'),
+    '#options' => array(
+      'notification-red' => t('Red'),
+      'notification-yellow' => t('Yellow'),
+      'notification-blue' => t('Blue'),
+      'notification-green' => t('Green'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'notification'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Tabs
+/*============================================================================================*/
+$sc_tab_count = 0;
+
+function find_tab_links($matches)
+{
+  global $sc_tab_count;
+  $sc_tab_count++;
+  return 'id="tabs-'. $sc_tab_count .'"';
+}
+
+function axl_sc_standard_tabs($attrs, $text) {
+  global $sc_tab_count;
+
+  extract(shortcode_attrs(array(
+    'style'      => '',
+    'class'      => 'tabs',
+  ), $attrs));
+
+  $tempcount = $sc_tab_count;
+  preg_match_all ( "/{processtab\|(.+?)}/" , $text , $matches);
+  $links = array();
+  foreach($matches[1] as $match) {
+    $tempcount ++;
+    $links[] = '<li><a href="#tabs-' . $tempcount . '">' . $match . '</a></li>' ;
+  }
+  $text = preg_replace_callback( "/{processtab\|.+?}/", "find_tab_links",$text);
+  $text = _axl_sc_standard_clean_items($text);
+  $tablinks = "<ul>" . implode("",$links) . "</ul>";
+
+  return theme('shortcode_tabs', array( 'tablinks' => $tablinks, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_tabs_tips($format, $long) {
+  $output = '<strong>[tabs]</strong>[tab-item][/tab-item]<strong>[/tabs]</strong>';
+  return $output;
+}
+
+function theme_shortcode_tabs($vars) {
+  return '<div class="' . $vars['class'] . '">' . $vars['tablinks']  . $vars['text'] . '</div>';
+}
+
+function axl_sc_standard_tabs_attributes($form, $form_state) {
+  $form['template-tags'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of items'),
+    '#options' => _axl_sc_standard_item_list( '[tab-item title=&#34;Tab Title Here&#34;]Content Here[/tab-item]<br>' ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'tabs'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+
+/*============================================================================================*/
+/* Tab Items
+/*============================================================================================*/
+function axl_sc_standard_tab_item($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'title'      => '',
+    'class'      => '',
+  ), $attrs));
+
+  return theme('shortcode_tab_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_tab_item_tips($format, $long) {
+  $output = '<strong>[tab-item title="Tab Title Here" ]</strong>Content Here<strong>[/tab-item]</strong>';
+  return $output;
+}
+
+function theme_shortcode_tab_item($vars) {
+  return '{start-item}<div {processtab|' . $vars['title'] . '} >' . $vars['text'] . '</div>{end-item}';
+}
+
+function axl_sc_standard_tab_item_attributes($form, $form_state) {
+  $form['sc_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => t('Tab Title Here'),
+    '#size' => 30,
+    '#maxlength' => 30,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'tab-item'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Teaser
+/*============================================================================================*/
+function axl_sc_standard_teaser($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'title'      => '',
+    'class'      => 'teaser',
+  ), $attrs));
+
+  return theme('shortcode_teaser', array( 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_teaser_tips($format, $long) {
+  $output = '<strong>[teaser]</strong>Content Here<strong>[/teaser]</strong>';
+  return $output;
+}
+
+function theme_shortcode_teaser($vars) {
+  return '<p class="' . $vars['class'] . '" >' . $vars['text'] . '</p>';
+}
+
+/*============================================================================================*/
+/* Toggle
+/*============================================================================================*/
+
+function axl_sc_standard_toggle($attrs, $text) {
+
+  extract(shortcode_attrs(array(
+    'class'      => 'toggle',
+  ), $attrs));
+
+  $text = _axl_sc_standard_clean_items($text);
+  return theme('shortcode_toggle', array( 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_toggle_tips($format, $long) {
+  $output = '<strong>[toggle]</strong>[toggle-item][/toggle-item]<strong>[/toggle]</strong>';
+  return $output;
+}
+
+function theme_shortcode_toggle($vars) {
+  return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
+}
+
+function axl_sc_standard_toggle_attributes($form, $form_state) {
+  $form['template-toggle'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of items'),
+    '#options' => _axl_sc_standard_item_list( '[toggle-item title=&#34;Toggle Title Here&#34;]Content Here[/toggle-item]<br>' ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'toggle'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Toggle Items
+/*============================================================================================*/
+function axl_sc_standard_toggle_item($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'title'      => '',
+    'class'      => '',
+  ), $attrs));
+
+  return theme('shortcode_toggle_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+}
+
+function axl_sc_standard_toggle_item_tips($format, $long) {
+  $output = '<strong>[toggle-item title="Toggle Title Here" ]</strong>Content Here<strong>[/toggle-item]</strong>';
+  return $output;
+}
+
+function theme_shortcode_toggle_item($vars) {
+  return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
+}
+
+function axl_sc_standard_toggle_item_attributes($form, $form_state) {
+  $form['sc_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => t('Toggle Title Here'),
+    '#size' => 60,
+    '#maxlength' => 30,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'toggle-item'),
+      ),
+    ),
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Icons
+/*============================================================================================*/
+function axl_sc_standard_icon($attrs) {
+  extract(shortcode_attrs(array(
+    'name' => '',
+    'icon_name' => '',  
+    'size' => '1', 
+  ), $attrs));
+
+  $class = '';
+  $class = shortcode_add_class($class, 'fa');
+  $class = shortcode_add_class($class, $name);
+  $class = shortcode_add_class($class, $icon_name);
+  if (is_numeric($size)){
+    $size = floor($size);
+    switch ($size){
+    default:
+      $size_class = 'fa-1g';
+      break;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      $size_class = 'fa-' . $size . 'x';
+      break;
+    }
+  }
+  $class = shortcode_add_class($class, $size_class);
+   
+  return "<i class='" . $class . "'></i>";
+}
+
+function axl_sc_standard_icon_tips($format, $long) {
+  $output = '<strong>[icon name="Icon name" size="3" /]</strong>';
+  return $output;
+}
+
+function theme_shortcode_icon($vars) {
+  if (is_numeric($vars['size'])){
+    $size_class = 'fa-'.$vars['size'].'x';
+  }
+  return "<i class='" . implode(' ', $classes) . "'></i>";
+}
+
+function axl_sc_standard_icon_attributes($form, $form_state) {
+  $path = path_to_theme() . '/font-awesome/css/font-awesome.css';
+  $path = drupal_realpath($path);
+  $css = file_get_contents($path);
+  $options = array();
+  if (preg_match_all("/\.(fa-[a-zA-Z0-9\-]+)\:before/", $css, $matches) > 0){
+    foreach ($matches[1] as $option){
+      $options[$option] = $option;
+    }
+    asort($options);
+  }
+  $form['icon_name'] = array(
+    '#type' => 'select',
+    '#title' => t('Icon Name'),
+    '#options' => $options,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'icon'),
+      ),
+    ),
+  );
+  $form['size'] = array(
+    '#type' => 'select',
+    '#title' => t('Icon Size'),
+    '#options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5'), 
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'icon'),
+      ),
+    ),     
+  );
+  return $form;
+}
+
+/*============================================================================================*/
+/* Embed Block
+/*============================================================================================*/
+function axl_sc_standard_block($attrs) {
+  extract(shortcode_attrs(array(
+    'title' => '',  
+    'name' => '',
+    'class' => '',  
+  ), $attrs));
+   
+  return theme('shortcode_block', array( 'title' => $title, 'name' => $name, 'class' => $class));
+}
+
+function axl_sc_standard_block_tips($format, $long) {
+  $output = '<strong>[block name="Block name" title="Title" /]</strong>';
+  return $output;
+}
+
+function theme_shortcode_block($vars) {
+  global $user;
+  if (!empty($vars['name'])){
+    list($module, $delta) = explode('-', $vars['name'], 2);
+    if (!empty($module) && !empty($delta)){
+      $current_user = clone($user);
+      // Render block as anonymous user
+      $anon_user = new stdClass();
+      $anon_user->uid = 0;
+      $anon_user->roles = array(1 => 'anonymous user');
+      $user = $anon_user;
+      $block = block_load($module, $delta);
+      if (!empty($vars['class'])){
+        $block->css_class .= $vars['class'];
+      }
+      $block_list = _block_render_blocks(array($block));
+      if (!empty($block_list[$module . '_' . $delta])){
+        unset($block_list[$module . '_' . $delta]->controls);
+        if (!empty($vars['title'])){
+          $block_list[$module . '_' . $delta]->subject = $vars['title'];
+        }
+        $render = _block_get_renderable_array($block_list);
+        unset($render[$module . '_' . $delta]['#contextual_links']);
+      }
+      // Restore user
+      $user = $current_user;
+      return render($render);
+    }
+  }
+  return '';
+}
+
+function axl_sc_standard_block_attributes($form, $form_state) {
+  $options = array();
+  if (module_exists('block')) {
+    $theme_key = variable_get('theme_default', 'garland');
+    $blocks = _block_rehash($theme_key);
+    // Change from numeric keys to module-delta.
+    foreach ($blocks as $block) {
+      $options[$block['module'] . '-' . $block['delta']] = $block['info'];
+    }
+  }
+  $form['sc_name'] = array(
+    '#type' => 'select',
+    '#title' => t('Block'),
+    '#options' => $options,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'block'),
+      ),
+    ),
+  );
+  $form['sc_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title (leave empty to use default)'),
+    '#default_value' => '',
+    '#size' => 60,
+    '#maxlength' => 30,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="shortcode"]' => array('value' => 'block'),
+      ),
+    ),      
+  );  
+  return $form;
+}
+
+/*============================================================================================*/
+/* Center
+/*============================================================================================*/
+function axl_sc_standard_center($attrs, $text) {
+  extract(shortcode_attrs(array(
+    'name' => '',
+  ), $attrs));
+
+  return '<div class="sc-center">' . $text . '</div>';
+}
+
+function axl_sc_standard_center_tips($format, $long) {
+  $output = '<strong>[center]</strong>Content to align<strong>[/center]</strong>';
+  return $output;
+}
+
+/*============================================================================================*/
+/* Internal functions
+/*============================================================================================*/
+function _axl_sc_standard_item_list( $shortcode ) {
+  $items = array();
+  for( $x=0; $x<=10; $x++) {
+    $items[ '<br>' . str_repeat($shortcode, $x)] = $x . ngettext( ' item' , ' items' , $x );
+  }
+  return $items;
+}
+
+function _axl_sc_standard_clean_items( $text ) {
+  preg_match_all('/{start-item}(.*?){end-item}/s', $text, $matches);
+  $text = implode( '', $matches[1] );
+  return $text;
+}
+
+
+/**
+ * Implementation of hook_filter_info().
+ */
+function axl_sc_standard_filter_info(){
+  $filters['shortcode_text_preprocess'] = array(
+    'title' => t('Shortcodes - Preprocess text'),
+    'description' => t('Remove spurious characters from inside shortcode tags. Run before shortcode filter.'),
+    'process callback' => '_axl_sc_standard_preprocess_text',  
+  );
+  $filters['shortcode_no_cache'] = array(
+    'title' => t('Shortcodes - Dynamic content'),
+    'description' => t('If using embedded content that might change use this filter to turn off text caching.'),
+    'process callback' => '_axl_sc_standard_no_cache',
+    'cache' => FALSE,  
+  );  
+  return $filters;
+}
+
+/**
+ * Implementation of hook_filter_info_alter().
+ */
+function axl_sc_standard_filter_info_alter(&$info){
+  $info['shortcode_text_corrector']['description'] = t('Correcting html after shortcode processing. Enable only if you using wysiwyg editor.');
+}
+
+/**
+ * Remove any &nbsp; from source before processing shortcodes
+ */
+function _axl_sc_standard_preprocess_text($text, $filter){
+  return preg_replace_callback('|\[([^\]]+)\]|is',
+    function($matches){
+      // replace characters with [] tag
+      return str_replace(array('&nbsp;', '"/]', "'/]"), array(' ', '" /]', "' /]"), $matches[0]);
+    },
+    $text
+  );
+}
+
+/**
+ * Dummy filter that just turns off cache
+ */
+function _axl_sc_standard_no_cache($text, $filter){
+  return $text;
+}
