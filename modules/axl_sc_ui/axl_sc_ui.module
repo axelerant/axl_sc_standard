@@ -73,22 +73,22 @@ function axl_sc_ui_shortcode_info() {
  */
 function axl_sc_ui_theme() {
   return array(
-    'shortcode_accordion' => array(
+    'axl_sc_ui_accordion' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_accordion_item' => array(
+    'axl_sc_ui_accordion_item' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_tabs' => array(
+    'axl_sc_ui_tabs' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_tab_item' => array(
+    'axl_sc_ui_tab_item' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_toggle' => array(
+    'axl_sc_ui_toggle' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_toggle_item' => array(
+    'axl_sc_ui_toggle_item' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
   );
@@ -105,7 +105,7 @@ function axl_sc_ui_accordion($attrs, $text) {
   ), $attrs));
   $text = _axl_sc_ui_clean_items($text);
 
-  return theme('shortcode_accordion', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_accordion', array( 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_accordion_tips($format, $long) {
@@ -113,7 +113,7 @@ function axl_sc_ui_accordion_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_accordion($vars) {
+function theme_axl_sc_ui_accordion($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
 }
 
@@ -140,7 +140,7 @@ function axl_sc_ui_accordion_item($attrs, $text) {
     'class'      => '',
   ), $attrs));
 
-  return theme('shortcode_accordion_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_accordion_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_accordion_item_tips($format, $long) {
@@ -148,7 +148,7 @@ function axl_sc_ui_accordion_item_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_accordion_item($vars) {
+function theme_axl_sc_ui_accordion_item($vars) {
   return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
 }
 
@@ -300,7 +300,7 @@ function axl_sc_ui_tabs($attrs, $text) {
   $text = _axl_sc_ui_clean_items($text);
   $tablinks = "<ul>" . implode("",$links) . "</ul>";
 
-  return theme('shortcode_tabs', array( 'tablinks' => $tablinks, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_tabs', array( 'tablinks' => $tablinks, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_tabs_tips($format, $long) {
@@ -308,7 +308,7 @@ function axl_sc_ui_tabs_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_tabs($vars) {
+function theme_axl_sc_ui_tabs($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['tablinks']  . $vars['text'] . '</div>';
 }
 
@@ -336,7 +336,7 @@ function axl_sc_ui_tab_item($attrs, $text) {
     'class'      => '',
   ), $attrs));
 
-  return theme('shortcode_tab_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_tab_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_tab_item_tips($format, $long) {
@@ -344,7 +344,7 @@ function axl_sc_ui_tab_item_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_tab_item($vars) {
+function theme_axl_sc_ui_tab_item($vars) {
   return '{start-item}<div {processtab|' . $vars['title'] . '} >' . $vars['text'] . '</div>{end-item}';
 }
 
@@ -375,7 +375,7 @@ function axl_sc_ui_toggle($attrs, $text) {
   ), $attrs));
 
   $text = _axl_sc_ui_clean_items($text);
-  return theme('shortcode_toggle', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_toggle', array( 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_toggle_tips($format, $long) {
@@ -383,7 +383,7 @@ function axl_sc_ui_toggle_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_toggle($vars) {
+function theme_axl_sc_ui_toggle($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
 }
 
@@ -410,7 +410,7 @@ function axl_sc_ui_toggle_item($attrs, $text) {
     'class'      => '',
   ), $attrs));
 
-  return theme('shortcode_toggle_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_toggle_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_ui_toggle_item_tips($format, $long) {
@@ -418,7 +418,7 @@ function axl_sc_ui_toggle_item_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_toggle_item($vars) {
+function theme_axl_sc_ui_toggle_item($vars) {
   return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
 }
 

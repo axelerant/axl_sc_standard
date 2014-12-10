@@ -15,12 +15,12 @@ function axl_sc_standard_js_alter(&$javascript) {
  * Implementation of hook_filter_info().
  */
 function axl_sc_standard_filter_info(){
-  $filters['shortcode_text_preprocess'] = array(
+  $filters['axl_sc_standard_text_preprocess'] = array(
     'title' => t('Shortcodes - Preprocess text'),
     'description' => t('Remove spurious characters from inside shortcode tags. Run before shortcode filter.'),
     'process callback' => '_axl_sc_standard_preprocess_text',
   );
-  $filters['shortcode_no_cache'] = array(
+  $filters['axl_sc_standard_no_cache'] = array(
     'title' => t('Shortcodes - Dynamic content'),
     'description' => t('If using embedded content that might change use this filter to turn off text caching.'),
     'process callback' => '_axl_sc_standard_no_cache',
@@ -129,22 +129,19 @@ function axl_sc_standard_shortcode_info() {
  */
 function axl_sc_standard_theme() {
   return array(
-    'shortcode_footnote' => array(
+    'axl_sc_standard_footnote' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_infobox' => array(
+    'axl_sc_standard_infobox' => array(
       'variables' => array( 'title' => NULL, 'text' => NULL, 'class' => NULL),
     ),
-    'shortcode_notification' => array(
+    'axl_sc_standard_notification' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_teaser' => array(
+    'axl_sc_standard_teaser' => array(
       'variables' => array( 'text' => '', 'class' => ''),
     ),
-    'shortcode_center' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
-    ),  
-    'shortcode_block' => array(
+    'axl_sc_standard_block' => array(
       'variables' => array( 'title' => '', 'name' => '', 'class' => ''),
     ),      
   );
@@ -275,7 +272,7 @@ function axl_sc_standard_footnote($attrs, $text) {
     'class'      => 'footnote',
   ), $attrs));
 
-  return theme('shortcode_footnote', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_standard_footnote', array( 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_standard_footnote_tips($format, $long) {
@@ -283,7 +280,7 @@ function axl_sc_standard_footnote_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_footnote($vars) {
+function theme_axl_sc_standard_footnote($vars) {
   return '<div class="' . $vars['class'] . '" >' . $vars['text'] . '</div>';
 }
 
@@ -332,7 +329,7 @@ function axl_sc_standard_infobox($attrs, $text) {
     'class'      => 'infobox',
   ), $attrs));
 
-  return theme('shortcode_infobox', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_standard_infobox', array( 'title' => $title, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_standard_infobox_tips($format, $long) {
@@ -340,7 +337,7 @@ function axl_sc_standard_infobox_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_infobox($vars) {
+function theme_axl_sc_standard_infobox($vars) {
   $title = '';
   if( isset( $vars['title'] ) && $vars['title'] != '') {
     $title = "<h3>" . $vars['title'] . "</h3>";
@@ -376,7 +373,7 @@ function axl_sc_standard_notification($attrs, $text) {
 
   $class = shortcode_add_class($class, $color);
 
-  return theme('shortcode_notification', array( 'bold' => $bold, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_standard_notification', array( 'bold' => $bold, 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_standard_notification_tips($format, $long) {
@@ -384,7 +381,7 @@ function axl_sc_standard_notification_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_notification($vars) {
+function theme_axl_sc_standard_notification($vars) {
   return '<div class="' . $vars['class'] . '" ><p><strong>' . $vars['bold'] . '</strong>' . $vars['text'] . '</p></div>';
 }
 
@@ -427,7 +424,7 @@ function axl_sc_standard_teaser($attrs, $text) {
     'class'      => 'teaser',
   ), $attrs));
 
-  return theme('shortcode_teaser', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_standard_teaser', array( 'text' => $text, 'class' => $class));
 }
 
 function axl_sc_standard_teaser_tips($format, $long) {
@@ -435,7 +432,7 @@ function axl_sc_standard_teaser_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_teaser($vars) {
+function theme_axl_sc_standard_teaser($vars) {
   return '<p class="' . $vars['class'] . '" >' . $vars['text'] . '</p>';
 }
 
@@ -528,7 +525,7 @@ function axl_sc_standard_block($attrs) {
     'class' => '',  
   ), $attrs));
    
-  return theme('shortcode_block', array( 'title' => $title, 'name' => $name, 'class' => $class));
+  return theme('axl_sc_standard_block', array( 'title' => $title, 'name' => $name, 'class' => $class));
 }
 
 function axl_sc_standard_block_tips($format, $long) {
@@ -536,7 +533,7 @@ function axl_sc_standard_block_tips($format, $long) {
   return $output;
 }
 
-function theme_shortcode_block($vars) {
+function theme_axl_sc_standard_block($vars) {
   global $user;
   if (!empty($vars['name'])){
     list($module, $delta) = explode('-', $vars['name'], 2);
