@@ -117,14 +117,6 @@ function axl_sc_standard_shortcode_info() {
     'default settings' => array(),
     'attributes callback' => 'axl_sc_standard_center_attributes',
   );
-  $shortcodes['block'] = array(
-    'title' => t('Block'),
-    'description' => t('Embed a block.'),
-    'process callback' => 'axl_sc_standard_block',
-    'tips callback' => 'axl_sc_standard_block_tips',
-    'default settings' => array(),
-    'attributes callback' => 'axl_sc_standard_block_attributes',
-  );
   return $shortcodes;
 }
 
@@ -144,9 +136,6 @@ function axl_sc_standard_theme() {
     ),
     'axl_sc_standard_teaser' => array(
       'variables' => array('text' => '', 'class' => ''),
-    ),
-    'axl_sc_standard_block' => array(
-      'variables' => array('title' => '', 'name' => '', 'class' => ''),
     ),
   );
 }
@@ -620,109 +609,6 @@ function axl_sc_standard_icon_attributes($form, $form_state) {
     '#states' => array(
       'visible' => array(
         ':input[name="shortcode"]' => array('value' => 'icon'),
-      ),
-    ),
-  );
-  return $form;
-}
-
-/*============================================================================================*/
-/* Embed Block
-/*============================================================================================*/
-
-/**
- * Process [block] shortcode.
- */
-function axl_sc_standard_block($attrs) {
-  extract(shortcode_attrs(array(
-    'title' => '',
-    'name' => '',
-    'class' => '',
-  ), $attrs));
-
-  return theme('axl_sc_standard_block', array(
-    'title' => $title,
-    'name' => $name,
-    'class' => $class,
-  ));
-}
-
-/**
- * Tips for [block] shortcode.
- */
-function axl_sc_standard_block_tips($format, $long) {
-  $output = '<strong>[block name="Block name" title="Title" /]</strong>';
-  return $output;
-}
-
-/**
- * Theme callback for [block] shortcode.
- */
-function theme_axl_sc_standard_block($vars) {
-  global $user;
-  if (!empty($vars['name'])) {
-    list($module, $delta) = explode('-', $vars['name'], 2);
-    if (!empty($module) && !empty($delta)) {
-      $current_user = clone($user);
-      // Render block as anonymous user.
-      $anon_user = new stdClass();
-      $anon_user->uid = 0;
-      $anon_user->roles = array(1 => 'anonymous user');
-      $user = $anon_user;
-      $block = block_load($module, $delta);
-      if (!empty($vars['class'])) {
-        $block->css_class .= $vars['class'];
-      }
-      $block_list = _block_render_blocks(array($block));
-      if (!empty($block_list[$module . '_' . $delta])) {
-        unset($block_list[$module . '_' . $delta]->controls);
-        if (!empty($vars['title'])) {
-          $block_list[$module . '_' . $delta]->subject = $vars['title'];
-        }
-        $render = _block_get_renderable_array($block_list);
-        unset($render[$module . '_' . $delta]['#contextual_links']);
-      }
-
-      // Restore user.
-      $user = $current_user;
-      return render($render);
-    }
-  }
-  return '';
-}
-
-/**
- * Attributes for [block] shortcode.
- */
-function axl_sc_standard_block_attributes($form, $form_state) {
-  $options = array();
-  if (module_exists('block')) {
-    $theme_key = variable_get('theme_default', 'garland');
-    $blocks = _block_rehash($theme_key);
-    // Change from numeric keys to module-delta.
-    foreach ($blocks as $block) {
-      $options[$block['module'] . '-' . $block['delta']] = $block['info'];
-    }
-  }
-  $form['sc_name'] = array(
-    '#type' => 'select',
-    '#title' => t('Block'),
-    '#options' => $options,
-    '#states' => array(
-      'visible' => array(
-        ':input[name="shortcode"]' => array('value' => 'block'),
-      ),
-    ),
-  );
-  $form['sc_title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title (leave empty to use default)'),
-    '#default_value' => '',
-    '#size' => 60,
-    '#maxlength' => 30,
-    '#states' => array(
-      'visible' => array(
-        ':input[name="shortcode"]' => array('value' => 'block'),
       ),
     ),
   );

@@ -1,0 +1,8 @@
+name = Block Shortcode
+description = Provides custom shortcode tag to embed blocks.
+package = Axelerant Shortcodes
+core = 7.x
+
+dependencies[] = filter
+dependencies[] = shortcode
+dependencies[] = axl_sc_standard
