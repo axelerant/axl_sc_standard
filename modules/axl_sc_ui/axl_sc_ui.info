@@ -1,0 +1,8 @@
+name = UI Shortcodes
+description = Provides custom shortcode tags for UI elements
+package = Axelerant Shortcodes
+core = 7.x
+
+dependencies[] = filter
+dependencies[] = shortcode
+dependencies[] = axl_sc_standard
