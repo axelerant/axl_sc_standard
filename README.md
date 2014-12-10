@@ -3,7 +3,8 @@
 #### Steps to use this Module
 
 - Enable the Module.
-- Then go to the text format where you want to add shortcuts, eg. admin/config/content/formats/full_html.
+- Then go to the text format where you want to add shortcuts,
+eg. admin/config/content/formats/full_html.
 - Check short codes under Enabled Filters
 - Scroll down and choose Shortcodes under Filter Setting.
 - Check to enable each shortcode that you require.

@@ -5,8 +5,7 @@
  */
 
 /**
- * Implementation of hook_shortcode_info().
- * Using the same formatting as hook_filter_info()
+ * Implements hook_shortcode_info().
  */
 function axl_sc_ui_shortcode_info() {
   $shortcodes['accordion'] = array(
@@ -69,27 +68,27 @@ function axl_sc_ui_shortcode_info() {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function axl_sc_ui_theme() {
   return array(
     'axl_sc_ui_accordion' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
     'axl_sc_ui_accordion_item' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
     'axl_sc_ui_tabs' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
     'axl_sc_ui_tab_item' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
     'axl_sc_ui_toggle' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
     'axl_sc_ui_toggle_item' => array(
-      'variables' => array( 'text' => '', 'class' => ''),
+      'variables' => array('text' => '', 'class' => ''),
     ),
   );
 }
@@ -98,6 +97,9 @@ function axl_sc_ui_theme() {
 /* Accordion
 /*============================================================================================*/
 
+/**
+ * Process [accordion] shortcode.
+ */
 function axl_sc_ui_accordion($attrs, $text) {
   extract(shortcode_attrs(array(
     'style'      => '',
@@ -105,23 +107,35 @@ function axl_sc_ui_accordion($attrs, $text) {
   ), $attrs));
   $text = _axl_sc_ui_clean_items($text);
 
-  return theme('axl_sc_ui_accordion', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_accordion', array(
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [accordion] shortcode.
+ */
 function axl_sc_ui_accordion_tips($format, $long) {
   $output = '<strong>[accordion]</strong>[accordion-item][/accordion-item]<strong>[/accordion]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [accordion] shortcode.
+ */
 function theme_axl_sc_ui_accordion($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
 }
 
+/**
+ * Attributes for [accordion] shortcode.
+ */
 function axl_sc_ui_accordion_attributes($form, $form_state) {
   $form['template-accordion'] = array(
     '#type' => 'select',
     '#title' => t('Number of items'),
-    '#options' => _axl_sc_ui_item_list( '[accordion-item title=&#34;Accordion Title Here&#34;]Content Here[/accordion-item]<br>' ),
+    '#options' => _axl_sc_ui_item_list('[accordion-item title=&#34;Accordion Title Here&#34;]Content Here[/accordion-item]<br />'),
     '#states' => array(
       'visible' => array(
         ':input[name="shortcode"]' => array('value' => 'accordion'),
@@ -134,24 +148,41 @@ function axl_sc_ui_accordion_attributes($form, $form_state) {
 /*============================================================================================*/
 /* Accordion Items
 /*============================================================================================*/
+
+/**
+ * Process [accordion-item] shortcode.
+ */
 function axl_sc_ui_accordion_item($attrs, $text) {
   extract(shortcode_attrs(array(
     'title'  => '',
     'class'      => '',
   ), $attrs));
 
-  return theme('axl_sc_ui_accordion_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_accordion_item', array(
+    'title' => $title,
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [accordion-item] shortcode.
+ */
 function axl_sc_ui_accordion_item_tips($format, $long) {
   $output = '<strong>[accordion-item title="Accordian Title Here" ]</strong>Content Here<strong>[/accordion-item]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [accordion-item] shortcode.
+ */
 function theme_axl_sc_ui_accordion_item($vars) {
   return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
 }
 
+/**
+ * Attributes for [accordion-item] shortcode.
+ */
 function axl_sc_ui_accordion_item_attributes($form, $form_state) {
   $form['sc_title'] = array(
     '#type' => 'textfield',
@@ -171,7 +202,11 @@ function axl_sc_ui_accordion_item_attributes($form, $form_state) {
 /*============================================================================================*/
 /* Button
 /*============================================================================================*/
-function axl_sc_ui_button( $attrs, $text ) {
+
+/**
+ * Process [button] shortcode.
+ */
+function axl_sc_ui_button($attrs, $text) {
   extract(shortcode_attrs(array(
     'url'     => '',
     'size'    => '',
@@ -193,11 +228,17 @@ function axl_sc_ui_button( $attrs, $text ) {
   );
 }
 
+/**
+ * Tips for [button] shortcode.
+ */
 function axl_sc_ui_button_tips($format, $long) {
   $output = '<strong>[button url="#" size="small" color="red" target="_blank"]</strong>Button Text<strong>[/button]</strong>';
   return $output;
 }
 
+/**
+ * Attributes for [button] shortcode.
+ */
 function axl_sc_ui_button_attributes($form, $form_state) {
   $form['sc_content_button'] = array(
     '#type' => 'textfield',
@@ -212,7 +253,7 @@ function axl_sc_ui_button_attributes($form, $form_state) {
   );
   $form['url'] = array(
     '#type' => 'textfield',
-    '#description' => t("For external URL's enter www.yourdomain.com or http://www.yourdomain.com<br>For internal URL's enter \"/node/node#\""),
+    '#description' => t("For external URL's enter www.yourdomain.com or http://www.yourdomain.com<br />For internal URL's enter \"/node/node#\""),
     '#title' => t('Link url'),
     '#size' => 30,
     '#maxlength' => 255,
@@ -272,51 +313,69 @@ function axl_sc_ui_button_attributes($form, $form_state) {
 /*============================================================================================*/
 /* Tabs
 /*============================================================================================*/
-$sc_tab_count = 0;
+$_axl_sc_ui_tab_count = 0;
 
-function find_tab_links($matches)
-{
-  global $sc_tab_count;
-  $sc_tab_count++;
-  return 'id="tabs-'. $sc_tab_count .'"';
+/**
+ * Internal function to track number of tab links.
+ */
+function _axl_sc_ui_find_tab_links($matches) {
+  global $_axl_sc_ui_tab_count;
+  $_axl_sc_ui_tab_count++;
+  return 'id="tabs-' . $_axl_sc_ui_tab_count . '"';
 }
 
+/**
+ * Process [tabs] shortcode.
+ */
 function axl_sc_ui_tabs($attrs, $text) {
-  global $sc_tab_count;
+  global $_axl_sc_ui_tab_count;
 
   extract(shortcode_attrs(array(
     'style'      => '',
     'class'      => 'tabs',
   ), $attrs));
 
-  $tempcount = $sc_tab_count;
-  preg_match_all ( "/{processtab\|(.+?)}/" , $text , $matches);
+  $tempcount = $_axl_sc_ui_tab_count;
+  preg_match_all("/{processtab\|(.+?)}/", $text, $matches);
   $links = array();
-  foreach($matches[1] as $match) {
-    $tempcount ++;
-    $links[] = '<li><a href="#tabs-' . $tempcount . '">' . $match . '</a></li>' ;
+  foreach ($matches[1] as $match) {
+    $tempcount++;
+    $links[] = '<li><a href="#tabs-' . $tempcount . '">' . $match . '</a></li>';
   }
-  $text = preg_replace_callback( "/{processtab\|.+?}/", "find_tab_links",$text);
+  $text = preg_replace_callback("/{processtab\|.+?}/", "_axl_sc_ui_find_tab_links", $text);
   $text = _axl_sc_ui_clean_items($text);
-  $tablinks = "<ul>" . implode("",$links) . "</ul>";
+  $tablinks = "<ul>" . implode("", $links) . "</ul>";
 
-  return theme('axl_sc_ui_tabs', array( 'tablinks' => $tablinks, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_tabs', array(
+    'tablinks' => $tablinks,
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [tabs] shortcode.
+ */
 function axl_sc_ui_tabs_tips($format, $long) {
   $output = '<strong>[tabs]</strong>[tab-item][/tab-item]<strong>[/tabs]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [tabs] shortcode.
+ */
 function theme_axl_sc_ui_tabs($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['tablinks']  . $vars['text'] . '</div>';
 }
 
+/**
+ * Attributes for [tabs] shortcode.
+ */
 function axl_sc_ui_tabs_attributes($form, $form_state) {
   $form['template-tags'] = array(
     '#type' => 'select',
     '#title' => t('Number of items'),
-    '#options' => _axl_sc_ui_item_list( '[tab-item title=&#34;Tab Title Here&#34;]Content Here[/tab-item]<br>' ),
+    '#options' => _axl_sc_ui_item_list('[tab-item title=&#34;Tab Title Here&#34;]Content Here[/tab-item]<br />'),
     '#states' => array(
       'visible' => array(
         ':input[name="shortcode"]' => array('value' => 'tabs'),
@@ -330,24 +389,41 @@ function axl_sc_ui_tabs_attributes($form, $form_state) {
 /*============================================================================================*/
 /* Tab Items
 /*============================================================================================*/
+
+/**
+ * Process [tab-item] shortcode.
+ */
 function axl_sc_ui_tab_item($attrs, $text) {
   extract(shortcode_attrs(array(
     'title'      => '',
     'class'      => '',
   ), $attrs));
 
-  return theme('axl_sc_ui_tab_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_tab_item', array(
+    'title' => $title,
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [tab-item] shortcode.
+ */
 function axl_sc_ui_tab_item_tips($format, $long) {
   $output = '<strong>[tab-item title="Tab Title Here" ]</strong>Content Here<strong>[/tab-item]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [tab-item] shortcode.
+ */
 function theme_axl_sc_ui_tab_item($vars) {
   return '{start-item}<div {processtab|' . $vars['title'] . '} >' . $vars['text'] . '</div>{end-item}';
 }
 
+/**
+ * Attributes for [tab-item] shortcode.
+ */
 function axl_sc_ui_tab_item_attributes($form, $form_state) {
   $form['sc_title'] = array(
     '#type' => 'textfield',
@@ -368,30 +444,44 @@ function axl_sc_ui_tab_item_attributes($form, $form_state) {
 /* Toggle
 /*============================================================================================*/
 
+/**
+ * Process [toggle] shortcode.
+ */
 function axl_sc_ui_toggle($attrs, $text) {
-
   extract(shortcode_attrs(array(
     'class'      => 'toggle',
   ), $attrs));
 
   $text = _axl_sc_ui_clean_items($text);
-  return theme('axl_sc_ui_toggle', array( 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_toggle', array(
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [toggle] shortcode.
+ */
 function axl_sc_ui_toggle_tips($format, $long) {
   $output = '<strong>[toggle]</strong>[toggle-item][/toggle-item]<strong>[/toggle]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [toggle] shortcode.
+ */
 function theme_axl_sc_ui_toggle($vars) {
   return '<div class="' . $vars['class'] . '">' . $vars['text'] . '</div>';
 }
 
+/**
+ * Attributes for [toggle] shortcode.
+ */
 function axl_sc_ui_toggle_attributes($form, $form_state) {
   $form['template-toggle'] = array(
     '#type' => 'select',
     '#title' => t('Number of items'),
-    '#options' => _axl_sc_ui_item_list( '[toggle-item title=&#34;Toggle Title Here&#34;]Content Here[/toggle-item]<br>' ),
+    '#options' => _axl_sc_ui_item_list('[toggle-item title=&#34;Toggle Title Here&#34;]Content Here[/toggle-item]<br />'),
     '#states' => array(
       'visible' => array(
         ':input[name="shortcode"]' => array('value' => 'toggle'),
@@ -404,24 +494,41 @@ function axl_sc_ui_toggle_attributes($form, $form_state) {
 /*============================================================================================*/
 /* Toggle Items
 /*============================================================================================*/
+
+/**
+ * Process [toggle-item] shortcode.
+ */
 function axl_sc_ui_toggle_item($attrs, $text) {
   extract(shortcode_attrs(array(
     'title'      => '',
     'class'      => '',
   ), $attrs));
 
-  return theme('axl_sc_ui_toggle_item', array( 'title' => $title, 'text' => $text, 'class' => $class));
+  return theme('axl_sc_ui_toggle_item', array(
+    'title' => $title,
+    'text' => $text,
+    'class' => $class,
+  ));
 }
 
+/**
+ * Tips for [toggle-item] shortcode.
+ */
 function axl_sc_ui_toggle_item_tips($format, $long) {
   $output = '<strong>[toggle-item title="Toggle Title Here" ]</strong>Content Here<strong>[/toggle-item]</strong>';
   return $output;
 }
 
+/**
+ * Theme callback for [toggle-item] shortcode.
+ */
 function theme_axl_sc_ui_toggle_item($vars) {
   return '{start-item}<h3>' . $vars['title'] . '</h3><div>' . $vars['text'] . '</div>{end-item}';
 }
 
+/**
+ * Attributes for [toggle-item] shortcode.
+ */
 function axl_sc_ui_toggle_item_attributes($form, $form_state) {
   $form['sc_title'] = array(
     '#type' => 'textfield',
@@ -438,16 +545,22 @@ function axl_sc_ui_toggle_item_attributes($form, $form_state) {
   return $form;
 }
 
-function _axl_sc_ui_item_list( $shortcode ) {
+/**
+ * Prepare item list.
+ */
+function _axl_sc_ui_item_list($shortcode) {
   $items = array();
-  for( $x=0; $x<=10; $x++) {
-    $items[ '<br>' . str_repeat($shortcode, $x)] = $x . ngettext( ' item' , ' items' , $x );
+  for ($x = 0; $x <= 10; $x++) {
+    $items['<br />' . str_repeat($shortcode, $x)] = $x . ngettext(' item', ' items', $x);
   }
   return $items;
 }
 
-function _axl_sc_ui_clean_items( $text ) {
+/**
+ * Remove placeholders.
+ */
+function _axl_sc_ui_clean_items($text) {
   preg_match_all('/{start-item}(.*?){end-item}/s', $text, $matches);
-  $text = implode( '', $matches[1] );
+  $text = implode('', $matches[1]);
   return $text;
 }
