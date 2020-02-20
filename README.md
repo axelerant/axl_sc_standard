@@ -1,6 +1,8 @@
 # Axelerant Standard Shortcodes
 
-#### Steps to use this Module
+**Archived: Not maintained and left for reference purposes only.**
+
+## Steps to use this Module
 
 - Enable the Module.
 - Then go to the text format where you want to add shortcuts,
